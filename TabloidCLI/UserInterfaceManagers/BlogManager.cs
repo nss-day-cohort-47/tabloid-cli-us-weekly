@@ -113,7 +113,7 @@ namespace TabloidCLI.UserInterfaceManagers
 
         private void Edit()
         {
-            Journal blogToEdit = Choose("Which blog entry would you like to edit?");
+            Blog blogToEdit = Choose("Which blog entry would you like to edit?");
             if (blogToEdit == null)
             {
                 return;
@@ -128,10 +128,10 @@ namespace TabloidCLI.UserInterfaceManagers
             }
             Console.WriteLine();
             Console.Write("New URL (blank to leave unchanged: ");
-            string content = Console.ReadLine();
-            if (!string.IsNullOrWhiteSpace(content))
+            string URL = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(URL))
             {
-                blogToEdit.Content = content;
+                blogToEdit.Url = URL;
             }
             _blogRepository.Update(blogToEdit);
 
