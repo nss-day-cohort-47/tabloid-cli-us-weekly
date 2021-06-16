@@ -11,7 +11,29 @@ namespace TabloidCLI.Repositories
 
         public List<Post> GetAll()
         {
-            throw new NotImplementedException();
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "SELECT Id, Title, URL, PublishDateTime FROM Post";
+                    List<Post> allPosts = new List<Post>();
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        Post p = new Post()
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Title = reader.GetString(reader.GetOrdinal("Title")),
+                            Url = reader.GetString(reader.GetOrdinal("Url")),
+                            PublishDateTime = reader.GetDateTime(reader.GetOrdinal("PublishDateTime"))
+                        };
+                        allPosts.Add(p);
+                    }
+                    reader.Close();
+                    return allPosts;
+                }
+            }
         }
 
         public Post Get(int id)
