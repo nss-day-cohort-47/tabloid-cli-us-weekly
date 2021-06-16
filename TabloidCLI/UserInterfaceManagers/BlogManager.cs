@@ -65,10 +65,20 @@ namespace TabloidCLI.UserInterfaceManagers
         }
         // -------------------------------------------------- cd  --------------------------------------------------------------------------
 
+        //Hunter's code to Add  Blog-----------------------------------------
         private void Add()
         {
-            throw new NotImplementedException();
+            Blog blog = new Blog();
+
+            Console.Write("Title: ");
+            blog.Title = Console.ReadLine();
+
+            Console.Write("URL: ");
+            blog.Url = Console.ReadLine();
+
+            _blogRepository.Insert(blog);
         }
+        //Hunter's code to Add  Blog-----------------------------------------
 
         private Blog Choose(string prompt = null)
         {
