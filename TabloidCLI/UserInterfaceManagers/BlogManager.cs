@@ -1,8 +1,13 @@
 ﻿using System;
+<<<<<<< HEAD
 using System.Collections.Generic;
 using TabloidCLI.Models;
 using TabloidCLI.Repositories;
 
+=======
+using TabloidCLI.Models;
+using TabloidCLI.Repositories;
+>>>>>>> 260bb4cec9fb35957d8a579749a3ef1ddb3234c1
 namespace TabloidCLI.UserInterfaceManagers
 {
     public class BlogManager : IUserInterfaceManager
@@ -10,10 +15,16 @@ namespace TabloidCLI.UserInterfaceManagers
         private readonly IUserInterfaceManager _parentUI;
         private BlogRepository _blogRepository;
         private string _connectionString;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 260bb4cec9fb35957d8a579749a3ef1ddb3234c1
 
         public BlogManager(IUserInterfaceManager parentUI, string connectionString)
         {
             _parentUI = parentUI;
+            _blogRepository = new BlogRepository(connectionString);
+            _connectionString = connectionString;
         }
 
         public IUserInterfaceManager Execute()
@@ -48,11 +59,20 @@ namespace TabloidCLI.UserInterfaceManagers
                     return this;
             }
         }
-
+        // -------------------------------------------------- cd  --------------------------------------------------------------------------
+        /// <summary>
+        /// Get and display all blog posts
+        /// </summary>
         private void List()
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"{String.Format("{0,-5}","Id")}{String.Format("{0,-30}", " Title")}{String.Format("{0,-30}", " URL")}");
+            foreach (Blog b in _blogRepository.GetAll())
+            {
+                Console.WriteLine($"{String.Format("{0,-5}", b.Id + ":")}{String.Format("{0,-30}", b.Title)}{String.Format("{0,-30}", b.Url )}");
+            }
+            Console.WriteLine();
         }
+        // -------------------------------------------------- cd  --------------------------------------------------------------------------
 
         private void Add()
         {
