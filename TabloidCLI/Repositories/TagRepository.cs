@@ -9,6 +9,7 @@ namespace TabloidCLI
 {
     public class TagRepository : DatabaseConnector, IRepository<Tag>
     {
+
         public TagRepository(string connectionString) : base(connectionString) { }
 
         public List<Tag> GetAll()
@@ -77,10 +78,20 @@ namespace TabloidCLI
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "DELETE FROM Tag WHERE Id = @id";
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
 
-        public SearchResults<Author> SearchAuthors(string tagName)
+      
+            public SearchResults<Author> SearchAuthors(string tagName)
         {
             using (SqlConnection conn = Connection)
             {

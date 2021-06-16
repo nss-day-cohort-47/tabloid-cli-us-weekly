@@ -1,6 +1,7 @@
 ﻿using System;
+using TabloidCLI.Repositories;
+    using TabloidCLI.Models;
 using System.Collections.Generic;
-using TabloidCLI.Models;
 
 namespace TabloidCLI.UserInterfaceManagers
 {
@@ -88,9 +89,12 @@ namespace TabloidCLI.UserInterfaceManagers
 
         private void Remove()
         {
-            throw new NotImplementedException();
+            Tag tagToDelete = Choose("Which tag would you like to remove?");
+            if (tagToDelete != null)
+            {
+                _tagRepository.Delete(tagToDelete.Id);
+            }
         }
-
         private Tag Choose(string prompt = null)
         {
             if (prompt == null)
