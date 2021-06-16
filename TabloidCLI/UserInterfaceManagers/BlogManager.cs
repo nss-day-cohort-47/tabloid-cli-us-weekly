@@ -1,14 +1,20 @@
 ﻿using System;
-
+using TabloidCLI.Models;
+using TabloidCLI.Repositories;
 namespace TabloidCLI.UserInterfaceManagers
 {
     public class BlogManager : IUserInterfaceManager
     {
         private readonly IUserInterfaceManager _parentUI;
+        private BlogRepository _blogRepository;
+        private string _connectionString;
+
 
         public BlogManager(IUserInterfaceManager parentUI, string connectionString)
         {
             _parentUI = parentUI;
+            _blogRepository = new BlogRepository(connectionString);
+            _connectionString = connectionString;
         }
 
         public IUserInterfaceManager Execute()
@@ -43,11 +49,20 @@ namespace TabloidCLI.UserInterfaceManagers
                     return this;
             }
         }
-
+        // -------------------------------------------------- cd  --------------------------------------------------------------------------
+        /// <summary>
+        /// Get and display all blog posts
+        /// </summary>
         private void List()
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"{String.Format("{0,-5}","Id")}{String.Format("{0,-30}", " Title")}{String.Format("{0,-30}", " URL")}");
+            foreach (Blog b in _blogRepository.GetAll())
+            {
+                Console.WriteLine($"{String.Format("{0,-5}", b.Id + ":")}{String.Format("{0,-30}", b.Title)}{String.Format("{0,-30}", b.Url )}");
+            }
+            Console.WriteLine();
         }
+        // -------------------------------------------------- cd  --------------------------------------------------------------------------
 
         private void Add()
         {
