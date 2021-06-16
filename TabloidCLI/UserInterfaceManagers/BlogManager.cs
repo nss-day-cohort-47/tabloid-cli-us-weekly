@@ -1,14 +1,20 @@
 ﻿using System;
+using TabloidCLI.Models;
+using TabloidCLI.Repositories;
 
 namespace TabloidCLI.UserInterfaceManagers
 {
     public class BlogManager : IUserInterfaceManager
     {
         private readonly IUserInterfaceManager _parentUI;
+        private BlogRepository _blogRepository;
+        private string _connectionString;
 
         public BlogManager(IUserInterfaceManager parentUI, string connectionString)
         {
             _parentUI = parentUI;
+            _blogRepository = new BlogRepository(connectionString);
+            _connectionString = connectionString;
         }
 
         public IUserInterfaceManager Execute()
@@ -49,10 +55,20 @@ namespace TabloidCLI.UserInterfaceManagers
             throw new NotImplementedException();
         }
 
+        //Hunter's code to Add  Blog-----------------------------------------
         private void Add()
         {
-            throw new NotImplementedException();
+            Blog blog = new Blog();
+
+            Console.Write("Title: ");
+            blog.Title = Console.ReadLine();
+
+            Console.Write("URL: ");
+            blog.Url = Console.ReadLine();
+
+            _blogRepository.Insert(blog);
         }
+        //Hunter's code to Add  Blog-----------------------------------------
 
         private void Edit()
         {

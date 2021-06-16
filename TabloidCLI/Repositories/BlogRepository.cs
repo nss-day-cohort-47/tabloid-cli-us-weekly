@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Data.SqlClient;
 using TabloidCLI.Models;
 
+
 namespace TabloidCLI.Repositories
 {
     public class BlogRepository : DatabaseConnector, IRepository<Blog>
@@ -19,10 +20,25 @@ namespace TabloidCLI.Repositories
             throw new NotImplementedException();
         }
 
+        //Hunter's code to Add  Blog-----------------------------------------
         public void Insert(Blog blog)
         {
-            throw new NotImplementedException();
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"INSERT INTO Blog (Title, Url) 
+                                        VALUES (@title, @url)";
+
+                    cmd.Parameters.AddWithValue("@title", blog.Title);
+                    cmd.Parameters.AddWithValue("@url", blog.Url);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
+        //Hunter's code to Add  Blog-----------------------------------------
 
         public void Update(Blog blog)
         {
