@@ -106,7 +106,27 @@ namespace TabloidCLI.UserInterfaceManagers
 
         private void Edit()
         {
-            throw new NotImplementedException();
+            Post postToEdit = Choose("Which post would you like to edit?");
+            if (postToEdit == null)
+            {
+                return;
+            }
+
+            Console.WriteLine();
+            Console.Write("New Title (blank to leave unchanged: ");
+            string title = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(title))
+            {
+                postToEdit.Title = title;
+            }
+            Console.WriteLine();
+            Console.Write("New URL (blank to leave unchanged: ");
+            string URL = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(URL))
+            {
+                postToEdit.Url = URL;
+            }
+            _postRepository.Update(postToEdit);
         }
 
         private void Remove()
