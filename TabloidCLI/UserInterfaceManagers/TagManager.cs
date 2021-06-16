@@ -53,7 +53,11 @@ namespace TabloidCLI.UserInterfaceManagers
 
         private void List()
         {
-            throw new NotImplementedException();
+            List<Tag> tags = _tagRepository.GetAll();
+            foreach (Tag t in tags)
+            {
+                Console.WriteLine($"{t.Id}) {t.Name}");
+            }
         }
 
         private void Add()
