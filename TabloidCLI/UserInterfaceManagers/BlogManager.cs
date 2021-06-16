@@ -1,13 +1,8 @@
 ﻿using System;
-<<<<<<< HEAD
 using System.Collections.Generic;
 using TabloidCLI.Models;
 using TabloidCLI.Repositories;
 
-=======
-using TabloidCLI.Models;
-using TabloidCLI.Repositories;
->>>>>>> 260bb4cec9fb35957d8a579749a3ef1ddb3234c1
 namespace TabloidCLI.UserInterfaceManagers
 {
     public class BlogManager : IUserInterfaceManager
@@ -15,10 +10,6 @@ namespace TabloidCLI.UserInterfaceManagers
         private readonly IUserInterfaceManager _parentUI;
         private BlogRepository _blogRepository;
         private string _connectionString;
-<<<<<<< HEAD
-=======
-
->>>>>>> 260bb4cec9fb35957d8a579749a3ef1ddb3234c1
 
         public BlogManager(IUserInterfaceManager parentUI, string connectionString)
         {
@@ -65,10 +56,10 @@ namespace TabloidCLI.UserInterfaceManagers
         /// </summary>
         private void List()
         {
-            Console.WriteLine($"{String.Format("{0,-5}","Id")}{String.Format("{0,-30}", " Title")}{String.Format("{0,-30}", " URL")}");
+            Console.WriteLine($"{String.Format("{0,-5}", "Id")}{String.Format("{0,-30}", " Title")}{String.Format("{0,-30}", " URL")}");
             foreach (Blog b in _blogRepository.GetAll())
             {
-                Console.WriteLine($"{String.Format("{0,-5}", b.Id + ":")}{String.Format("{0,-30}", b.Title)}{String.Format("{0,-30}", b.Url )}");
+                Console.WriteLine($"{String.Format("{0,-5}", b.Id + ":")}{String.Format("{0,-30}", b.Title)}{String.Format("{0,-30}", b.Url)}");
             }
             Console.WriteLine();
         }
@@ -77,20 +68,6 @@ namespace TabloidCLI.UserInterfaceManagers
         private void Add()
         {
             throw new NotImplementedException();
-        }
-
-        private void Edit()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void Remove()
-        {
-            Blog blogToDelete = Choose("Whick blog would you like to remove");
-            if (blogToDelete != null)
-            {
-                _blogRepository.Delete(blogToDelete.Id);
-            }
         }
 
         private Blog Choose(string prompt = null)
@@ -102,12 +79,12 @@ namespace TabloidCLI.UserInterfaceManagers
 
             Console.WriteLine(prompt);
 
-            List<Blog> entries = _blogRepository.GetAll();
+            List<Blog> blogs = _blogRepository.GetAll();
 
-            for (int i = 0; i < entries.Count; i++)
+            for (int i = 0; i < blogs.Count; i++)
             {
-                Journal entry = entries[i];
-                Console.WriteLine($" {i + 1}) {entry.Title}");
+                Blog blog = blogs[i];
+                Console.WriteLine($" {i + 1}) {blog.Title}");
             }
             Console.Write("> ");
 
@@ -115,7 +92,7 @@ namespace TabloidCLI.UserInterfaceManagers
             try
             {
                 int choice = int.Parse(input);
-                return entries[choice - 1];
+                return blogs[choice - 1];
             }
             catch (Exception ex)
             {
@@ -123,5 +100,20 @@ namespace TabloidCLI.UserInterfaceManagers
                 return null;
             }
         }
+
+        private void Edit()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void Remove()
+        {
+            Blog blogToDelete = Choose("Which blog would you like to remove");
+            if (blogToDelete != null)
+            {
+                _blogRepository.Delete(blogToDelete.Id);
+            }
+        }
+
     }
 }
