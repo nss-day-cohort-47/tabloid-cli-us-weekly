@@ -10,6 +10,8 @@ namespace TabloidCLI.UserInterfaceManagers
     {
         private readonly IUserInterfaceManager _parentUI;
         private PostRepository _postRepository;
+        private AuthorRepository _authorRepository;
+        private BlogRepository _blogRepository;
         private string _connectionString;
 
 
@@ -18,6 +20,8 @@ namespace TabloidCLI.UserInterfaceManagers
             _parentUI = parentUI;
             _connectionString = connectionString;
             _postRepository = new PostRepository(connectionString);
+            _authorRepository = new AuthorRepository(connectionString);
+            _blogRepository = new BlogRepository(connectionString);
         }
 
         public IUserInterfaceManager Execute()
@@ -69,7 +73,37 @@ namespace TabloidCLI.UserInterfaceManagers
 
         private void Add()
         {
-            throw new NotImplementedException();
+            Post newPost = new Post();
+
+
+            Console.Write("Title: ");
+            newPost.Title = Console.ReadLine();
+
+
+            Console.Write("URL: ");
+            newPost.Url = Console.ReadLine();
+
+
+            List<Author> authors = _authorRepository.GetAll();
+            foreach (Author a in authors)
+            {
+                Console.WriteLine($"{a.Id}) {a.FullName}");
+            }
+            Console.Write("Enter the number for the desired author: ");
+            newPost.Author = authors[int.Parse(Console.ReadLine()) - 1];
+
+
+            List<Blog> blogs = _blogRepository.GetAll();
+            foreach (Blog b in blogs)
+            {
+                Console.WriteLine($"{b.Id}) {b.Title}");
+            }
+            Console.Write("Enter the number for the desired blog: ");
+            newPost.Blog = blogs[int.Parse(Console.ReadLine()) - 1];
+
+
+            _postRepository.Insert(newPost);
+            Console.WriteLine("Post added successfully");
         }
 
         private Post Choose(string prompt = null)
