@@ -14,8 +14,8 @@ namespace TabloidCLI.UserInterfaceManagers
         public BlogManager(IUserInterfaceManager parentUI, string connectionString)
         {
             _parentUI = parentUI;
-            _blogRepository = new BlogRepository(connectionString);
             _connectionString = connectionString;
+            _blogRepository = new BlogRepository(connectionString);
         }
 
         public IUserInterfaceManager Execute()
@@ -113,7 +113,28 @@ namespace TabloidCLI.UserInterfaceManagers
 
         private void Edit()
         {
-            throw new NotImplementedException();
+            Blog blogToEdit = Choose("Which blog entry would you like to edit?");
+            if (blogToEdit == null)
+            {
+                return;
+            }
+
+            Console.WriteLine();
+            Console.Write("New Title (blank to leave unchanged: ");
+            string title = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(title))
+            {
+                blogToEdit.Title = title;
+            }
+            Console.WriteLine();
+            Console.Write("New URL (blank to leave unchanged: ");
+            string URL = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(URL))
+            {
+                blogToEdit.Url = URL;
+            }
+            _blogRepository.Update(blogToEdit);
+
         }
 
         private void Remove()
