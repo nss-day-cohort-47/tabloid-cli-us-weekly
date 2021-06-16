@@ -62,7 +62,7 @@ namespace TabloidCLI.UserInterfaceManagers
             Console.Write("Name: ");
             newTag.Name = Console.ReadLine();
             _tagRepository.Insert(newTag);
-            Console.WriteLine($"Tag: {newTag.Name} has been updated");
+            Console.WriteLine($"Tag: {newTag.Name} has been added");
         }
 
         private void Edit()

@@ -46,11 +46,6 @@ namespace TabloidCLI
 
         public void Insert(Tag tag)
         {
-            throw new NotImplementedException();
-        }
-
-        public void Update(Tag tag)
-        {
             using (SqlConnection conn = Connection)
             {
                 conn.Open();
@@ -61,6 +56,12 @@ namespace TabloidCLI
                     cmd.ExecuteNonQuery();
                 }
             }
+
+        }
+
+        public void Update(Tag tag)
+        {
+            throw new NotImplementedException();
         }
 
         public void Delete(int id)
