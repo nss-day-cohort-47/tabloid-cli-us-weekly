@@ -1,14 +1,19 @@
 ﻿using System;
+using TabloidCLI.Models;
 
 namespace TabloidCLI.UserInterfaceManagers
 {
     public class TagManager : IUserInterfaceManager
     {
         private readonly IUserInterfaceManager _parentUI;
+        private TagRepository _tagRepository;
+        private string _connectionString;
 
         public TagManager(IUserInterfaceManager parentUI, string connectionString)
         {
             _parentUI = parentUI;
+            _connectionString = connectionString;
+            _tagRepository = new TagRepository(connectionString);
         }
 
         public IUserInterfaceManager Execute()
@@ -56,7 +61,20 @@ namespace TabloidCLI.UserInterfaceManagers
 
         private void Edit()
         {
-            throw new NotImplementedException();
+            Tag toEdit = Choose("Which tag would you like to edit?");
+            if (toEdit == null)
+            {
+                return;
+            }
+
+            Console.WriteLine();
+            Console.Write("New Name (blank to leave unchanged): ");
+            string name = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                toEdit.Name = name;
+            }
+            _tagRepository.Update(toEdit);
         }
 
         private void Remove()
