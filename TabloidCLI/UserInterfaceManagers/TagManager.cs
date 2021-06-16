@@ -1,14 +1,21 @@
 ﻿using System;
+using TabloidCLI.Repositories;
+    using TabloidCLI.Models;
+using System.Collections.Generic;
 
 namespace TabloidCLI.UserInterfaceManagers
 {
     public class TagManager : IUserInterfaceManager
     {
         private readonly IUserInterfaceManager _parentUI;
+        private TagRepository _tagRepository;
+        private string _connectionString;
 
         public TagManager(IUserInterfaceManager parentUI, string connectionString)
         {
             _parentUI = parentUI;
+            _tagRepository = new TagRepository(connectionString);
+            _connectionString = connectionString;
         }
 
         public IUserInterfaceManager Execute()
@@ -61,7 +68,43 @@ namespace TabloidCLI.UserInterfaceManagers
 
         private void Remove()
         {
-            throw new NotImplementedException();
+            Tag tagToDelete = Choose("Which tag would you like to remove?");
+            if (tagToDelete != null)
+            {
+                _tagRepository.Delete(tagToDelete.Id);
+            }
+        }
+        private Tag Choose(string prompt = null)
+        {
+            if (prompt == null)
+            {
+                prompt = "Please choose a Tag:";
+            }
+
+            Console.WriteLine(prompt);
+
+            List<Tag> tags = _tagRepository.GetAll();
+
+            for (int i = 0; i < tags.Count; i++)
+            {
+                Tag tag = tags[i];
+                Console.WriteLine($" {i + 1}) {tag.Name}");
+            }
+            Console.Write("> ");
+
+            string input = Console.ReadLine();
+            try
+            {
+                int choice = int.Parse(input);
+                return tags[choice - 1];
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Invalid Selection");
+                return null;
+            }
+
+
         }
     }
 }
