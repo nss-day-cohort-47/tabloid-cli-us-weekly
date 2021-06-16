@@ -1,14 +1,19 @@
 ﻿using System;
+using TabloidCLI.Repositories;
 
 namespace TabloidCLI.UserInterfaceManagers
 {
     public class BlogManager : IUserInterfaceManager
     {
         private readonly IUserInterfaceManager _parentUI;
+        private BlogRepository _blogRepository;
+        private string _connectionString;
 
         public BlogManager(IUserInterfaceManager parentUI, string connectionString)
         {
             _parentUI = parentUI;
+            _connectionString = connectionString;
+            _blogRepository = new BlogRepository(connectionString);
         }
 
         public IUserInterfaceManager Execute()
