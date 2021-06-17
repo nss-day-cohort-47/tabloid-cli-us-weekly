@@ -59,6 +59,13 @@ namespace TabloidCLI.UserInterfaceManagers
         {
             Post post = _postRepository.Get(_postId);
             Console.WriteLine($"{post.Title} --- URL: {post.Url} --- Published: {post.PublishDateTime}");
+            List<Tag> tags = _postRepository.GetPostTags(_postId);
+            Console.WriteLine("Tags:");
+            for (int i = 0; i < tags.Count; i++)
+            {
+                Tag tag = tags[i];
+                Console.WriteLine($" {i + 1}) {tag.Name}");
+            }
         }
         private void AddTag()
         {
@@ -78,7 +85,8 @@ namespace TabloidCLI.UserInterfaceManagers
             Tag TagToDel = ChooseTag("Which Tag would you like to Delete?");
             try
             {
-                if (TagToDel != null) {
+                if (TagToDel != null)
+                {
                     int choice = int.Parse(TagToDel.Id.ToString());
                     _postRepository.DeleteTag(_postId, choice);
                 }
@@ -102,7 +110,7 @@ namespace TabloidCLI.UserInterfaceManagers
 
             Console.WriteLine(prompt);
 
-            List<Tag> tags = _postRepository.GetPoatTags(_postId);
+            List<Tag> tags = _postRepository.GetPostTags(_postId);
 
             for (int i = 0; i < tags.Count; i++)
             {
