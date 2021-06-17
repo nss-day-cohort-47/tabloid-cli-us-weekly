@@ -57,7 +57,8 @@ namespace TabloidCLI.UserInterfaceManagers
 
         private void View()
         {
-            throw new NotImplementedException();
+            Post post = _postRepository.Get(_postId);
+            Console.WriteLine($"{post.Title} --- URL: {post.Url} --- Published: {post.PublishDateTime}");
         }
         private void AddTag()
         {
