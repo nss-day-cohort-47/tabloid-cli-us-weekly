@@ -75,7 +75,7 @@ namespace TabloidCLI.UserInterfaceManagers
         }
         private void RemoveTag()
         {
-            Tag TagToDel = ChooseTag("Which post would you like to edit?");
+            Tag TagToDel = ChooseTag("Which Tag would you like to Delete?");
             try
             {
                 if (TagToDel != null) {
@@ -87,8 +87,6 @@ namespace TabloidCLI.UserInterfaceManagers
             {
                 Console.WriteLine("Invalid Selection. Won't remove any tags.");
             }
-            _postRepository.DeleteTag(_postId, TagToDel.Id);
-
         }
         private void NoteManage()
         {
