@@ -123,9 +123,12 @@ namespace TabloidCLI.UserInterfaceManagers
         }
         private void ViewPosts()
         {
-            Post blogPost = _postRepository.Get(_blogId);
-            Console.WriteLine($"{blogPost.Title}  [ {blogPost.Url} ]");
-            Console.WriteLine();
+            List<Post> blogPost = _postRepository.GetbyBlogId(_blogId);
+            foreach (Post p in blogPost)
+            {
+                Console.WriteLine($"{p.Title}  [ {p.Url} ]");
+                Console.WriteLine();
+            }
         }
 
     }
