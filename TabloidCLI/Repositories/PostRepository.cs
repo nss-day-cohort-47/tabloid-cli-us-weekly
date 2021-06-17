@@ -181,8 +181,14 @@ namespace TabloidCLI.Repositories
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = "DELETE FROM Post WHERE Id = @id";
+                    cmd.CommandText = "DELETE FROM Note WHERE PostId = @id";
                     cmd.Parameters.AddWithValue("@id", id);
+                    cmd.ExecuteNonQuery();
+
+                    cmd.CommandText = "DELETE FROM PostTag WHERE PostId = @id";
+                    cmd.ExecuteNonQuery();
+
+                    cmd.CommandText = "DELETE FROM Post WHERE Id = @id";
                     cmd.ExecuteNonQuery();
                 }
             }

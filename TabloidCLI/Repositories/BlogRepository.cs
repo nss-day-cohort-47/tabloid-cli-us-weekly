@@ -93,16 +93,47 @@ namespace TabloidCLI.Repositories
 
         public void Delete(int id)
         {
+            DeletePost(id);
             using (SqlConnection conn = Connection)
             {
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"DELETE FROM Blog
-                                        WHERE Id = @id";
+                    cmd.CommandText = @"DELETE FROM BlogTag WHERE BlogId = @id";
                     cmd.Parameters.AddWithValue("@id", id);
                     cmd.ExecuteNonQuery();
+
+                    cmd.CommandText = @"DELETE FROM Blog WHERE Id = @id";
+                    cmd.ExecuteNonQuery();
                 }
+            }
+        }
+
+        public void DeletePost(int id)
+        {
+           int postId = -1;
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "SELECT Id from Post WHERE BlogId = @id";
+                    cmd.Parameters.AddWithValue("@id", id);
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        postId = reader.GetInt32(reader.GetOrdinal("Id"));
+                    }
+                    reader.Close();
+
+                }
+
+            }
+            if (postId != -1)
+            {
+                PostRepository postRepo = new PostRepository(Connection.ConnectionString);
+                postRepo.Delete(postId);
             }
         }
     }
