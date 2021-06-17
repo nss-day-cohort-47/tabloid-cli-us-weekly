@@ -176,7 +176,7 @@ namespace TabloidCLI.Repositories
             }
         }
 
-        public List<Tag> GetPoatTags(int postId)
+        public List<Tag> GetPostTags(int postId)
         {
             using (SqlConnection conn = Connection)
             {
@@ -188,13 +188,13 @@ namespace TabloidCLI.Repositories
                                         join PostTag pt on pt.PostId = p.Id
                                         join Tag t on pt.TagId = t.Id
                                         Where p.Id = @id";
-                    
+
                     cmd.Parameters.AddWithValue("@id", postId);
                     SqlDataReader reader = cmd.ExecuteReader();
                     List<Tag> allTags = new List<Tag>();
                     Tag tag = null;
-                    
-                    
+
+
                     while (reader.Read())
                     {
                         tag = new Tag()
@@ -240,8 +240,8 @@ namespace TabloidCLI.Repositories
                     cmd.Parameters.AddWithValue("@tagId", tagId);
                     cmd.Parameters.AddWithValue("@postId", postId);
 
-                    
-                        cmd.ExecuteNonQuery();
+
+                    cmd.ExecuteNonQuery();
 
                 }
             }
