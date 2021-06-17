@@ -59,7 +59,8 @@ namespace TabloidCLI.UserInterfaceManagers
 
         private void View()
         {
-            throw new NotImplementedException();
+            Blog blog = _blogRepository.Get(_blogId);
+
         }
         private void AddTag()
         {
