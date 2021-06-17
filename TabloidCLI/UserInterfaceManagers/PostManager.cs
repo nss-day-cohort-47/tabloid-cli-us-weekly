@@ -9,6 +9,7 @@ namespace TabloidCLI.UserInterfaceManagers
     class PostManager : IUserInterfaceManager
     {
         private readonly IUserInterfaceManager _parentUI;
+        private PostDetailManager _postDetailManager;
         private PostRepository _postRepository;
         private AuthorRepository _authorRepository;
         private BlogRepository _blogRepository;
@@ -31,6 +32,7 @@ namespace TabloidCLI.UserInterfaceManagers
             Console.WriteLine(" 2) Add a new post");
             Console.WriteLine(" 3) Edit a post");
             Console.WriteLine(" 4) Delete a post");
+            Console.WriteLine(" 5) View a post's details");
             Console.WriteLine(" 0) Go Back");
 
             Console.Write("> ");
@@ -49,6 +51,16 @@ namespace TabloidCLI.UserInterfaceManagers
                 case "4":
                     Remove();
                     return this;
+                case "5":
+                    Post post = Choose();
+                    if (post == null)
+                    {
+                        return this;
+                    }
+                    else
+                    {
+                        return new PostDetailManager(this, _connectionString, post.Id);
+                    }
                 case "0":
                     return _parentUI;
                 default:
@@ -170,6 +182,21 @@ namespace TabloidCLI.UserInterfaceManagers
             {
                 _postRepository.Delete(postToDelete.Id);
             }
+        }
+
+        private PostDetailManager SeeDetails()
+        {
+            Console.WriteLine("Which post do you want to see details for?");
+            List<Post> posts = _postRepository.GetAll();
+            foreach (Post p in posts)
+            {
+                Console.WriteLine($" {p.Id}) {p.Title}");
+            }
+            Console.Write("Enter the number for your choice of post > ");
+            int postResponse = int.Parse(Console.ReadLine());
+            Post selectedPost = posts[postResponse - 1];
+
+            return new PostDetailManager(this, _connectionString, selectedPost.Id);
         }
 
     }
