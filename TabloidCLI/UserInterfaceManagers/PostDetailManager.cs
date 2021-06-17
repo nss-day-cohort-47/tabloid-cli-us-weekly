@@ -62,7 +62,16 @@ namespace TabloidCLI.UserInterfaceManagers
         }
         private void AddTag()
         {
-            throw new NotImplementedException();
+            Post post = _postRepository.Get(_postId);
+            List<Tag> tags = _tagRepository.GetAll();
+            Console.WriteLine("Which tag do you want to add?");
+            foreach (Tag t in tags)
+            {
+                Console.WriteLine($" {t.Id}) {t.Name}");
+            }
+            Console.Write("Choose the number of the desired tag > ");
+            int chosenTagId = int.Parse(Console.ReadLine());
+            _postRepository.InsertTag(post.Id, chosenTagId);
         }
         private void RemoveTag()
         {
