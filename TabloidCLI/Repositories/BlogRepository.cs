@@ -136,5 +136,38 @@ namespace TabloidCLI.Repositories
                 postRepo.Delete(postId);
             }
         }
+
+        public void InsertTag(Blog blog, Tag tag)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"INSERT into BlogTag (BlogId, TagId)
+                                        Values (@blogId, @tagId)";
+                    cmd.Parameters.AddWithValue("@blogId", blog.Id);
+                    cmd.Parameters.AddWithValue("@tagId", tag.Id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void DeleteTag(int blogId, int tagId)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"DELETE from BlogTag WHERE BlogId = @blogId AND TagId = @tagId";
+                    cmd.Parameters.AddWithValue("@blogId", blogId);
+                    cmd.Parameters.AddWithValue("@tagId", tagId);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }
